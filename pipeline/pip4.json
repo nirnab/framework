@@ -32,7 +32,7 @@
 		"parameters": {
 			"time": {
 				"type": "string",
-				"defaultValue": "@formatDateTime(trigger(),startTime, 'yyyy-MM-ddTHH:mm:ssZ')"
+				"defaultValue": "@trigger().scheduledTime\t"
 			}
 		},
 		"annotations": []
