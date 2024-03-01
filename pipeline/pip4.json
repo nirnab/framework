@@ -1,0 +1,27 @@
+{
+	"name": "pip4",
+	"properties": {
+		"activities": [
+			{
+				"name": "Set variable1",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "trigger_time",
+					"value": ""
+				}
+			}
+		],
+		"variables": {
+			"trigger_time": {
+				"type": "String"
+			}
+		},
+		"annotations": []
+	}
+}
