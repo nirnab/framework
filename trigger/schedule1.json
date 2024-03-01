@@ -8,6 +8,9 @@
 				"pipelineReference": {
 					"referenceName": "pip4",
 					"type": "PipelineReference"
+				},
+				"parameters": {
+					"": "time"
 				}
 			}
 		],
