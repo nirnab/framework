@@ -29,6 +29,12 @@
 				}
 			}
 		],
+		"parameters": {
+			"time": {
+				"type": "string",
+				"defaultValue": "@trigger().startTime"
+			}
+		},
 		"variables": {
 			"trigger_time": {
 				"type": "String"
