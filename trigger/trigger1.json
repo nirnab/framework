@@ -10,7 +10,7 @@
 					"type": "PipelineReference"
 				},
 				"parameters": {
-					"time": "@formatDateTime(trigger(),startTime, 'yyyy-MM-ddTHH:mm:ssZ')"
+					"time": "@trigger().scheduledTime"
 				}
 			}
 		],
