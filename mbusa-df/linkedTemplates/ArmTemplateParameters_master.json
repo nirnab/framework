@@ -32,8 +32,8 @@
 		"triggeradls_properties_typeProperties_scope": {
 			"value": "/subscriptions/b248d6aa-e733-4e20-87d9-e427e42dfab4/resourceGroups/mbusa/providers/Microsoft.Storage/storageAccounts/mbusaadls"
 		},
-		"triggerscedule_properties_pip4_parameters_time": {
-			"value": "@trigger().startTime"
+		"trigger1_properties_pip4_parameters_time": {
+			"value": "@trigger().scheduledTime"
 		},
 		"containerUri": {
 			"value": ""

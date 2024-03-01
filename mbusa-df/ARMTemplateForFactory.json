@@ -43,9 +43,9 @@
 			"type": "string",
 			"defaultValue": "/subscriptions/b248d6aa-e733-4e20-87d9-e427e42dfab4/resourceGroups/mbusa/providers/Microsoft.Storage/storageAccounts/mbusaadls"
 		},
-		"triggerscedule_properties_pip4_parameters_time": {
+		"trigger1_properties_pip4_parameters_time": {
 			"type": "string",
-			"defaultValue": "@trigger().startTime"
+			"defaultValue": "@trigger().scheduledTime"
 		}
 	},
 	"variables": {
@@ -227,7 +227,7 @@
 				"parameters": {
 					"time": {
 						"type": "string",
-						"defaultValue": "@trigger().startTime"
+						"defaultValue": "@trigger().scheduledTime\t"
 					}
 				},
 				"annotations": []
@@ -375,6 +375,26 @@
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"annotations": [],
+				"runtimeState": "Stopped",
+				"pipelines": [],
+				"type": "ScheduleTrigger",
+				"typeProperties": {
+					"recurrence": {
+						"frequency": "Minute",
+						"interval": 15,
+						"startTime": "2024-03-01T00:00:00",
+						"timeZone": "India Standard Time"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/trigger1')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
 				"runtimeState": "Started",
 				"pipelines": [
 					{
@@ -383,7 +403,7 @@
 							"type": "PipelineReference"
 						},
 						"parameters": {
-							"time": "[parameters('triggerscedule_properties_pip4_parameters_time')]"
+							"time": "[parameters('trigger1_properties_pip4_parameters_time')]"
 						}
 					}
 				],
@@ -392,7 +412,7 @@
 					"recurrence": {
 						"frequency": "Minute",
 						"interval": 15,
-						"startTime": "2024-03-01T00:00:00",
+						"startTime": "2024-03-01T07:00:00",
 						"timeZone": "India Standard Time"
 					}
 				}

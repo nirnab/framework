@@ -43,9 +43,9 @@
 			"type": "string",
 			"defaultValue": "/subscriptions/b248d6aa-e733-4e20-87d9-e427e42dfab4/resourceGroups/mbusa/providers/Microsoft.Storage/storageAccounts/mbusaadls"
 		},
-		"triggerscedule_properties_pip4_parameters_time": {
+		"trigger1_properties_pip4_parameters_time": {
 			"type": "string",
-			"defaultValue": "@trigger().startTime"
+			"defaultValue": "@trigger().scheduledTime"
 		},
 		"containerUri": {
 			"type": "string",
@@ -101,8 +101,8 @@
 					"triggeradls_properties_typeProperties_scope": {
 						"value": "[parameters('triggeradls_properties_typeProperties_scope')]"
 					},
-					"triggerscedule_properties_pip4_parameters_time": {
-						"value": "[parameters('triggerscedule_properties_pip4_parameters_time')]"
+					"trigger1_properties_pip4_parameters_time": {
+						"value": "[parameters('trigger1_properties_pip4_parameters_time')]"
 					}
 				}
 			},
