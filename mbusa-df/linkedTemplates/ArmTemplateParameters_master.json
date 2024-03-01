@@ -20,6 +20,9 @@
 		"AzureDatabricks1_properties_typeProperties_existingClusterId": {
 			"value": "1219-043742-58dt6qj2"
 		},
+		"AzureDatabricks2_properties_typeProperties_existingClusterId": {
+			"value": "0301-063913-3tjp2vyv"
+		},
 		"triggeradls_properties_pip1_parameters_path": {
 			"value": "@triggerBody().folderPath"
 		},
@@ -31,9 +34,6 @@
 		},
 		"triggerscedule_properties_pip4_parameters_time": {
 			"value": "@trigger().startTime"
-		},
-		"AzureDatabricks2_properties_typeProperties_existingClusterId": {
-			"value": "0301-063913-3tjp2vyv"
 		},
 		"containerUri": {
 			"value": ""

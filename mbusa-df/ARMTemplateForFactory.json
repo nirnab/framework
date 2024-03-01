@@ -27,6 +27,10 @@
 			"type": "string",
 			"defaultValue": "1219-043742-58dt6qj2"
 		},
+		"AzureDatabricks2_properties_typeProperties_existingClusterId": {
+			"type": "string",
+			"defaultValue": "0301-063913-3tjp2vyv"
+		},
 		"triggeradls_properties_pip1_parameters_path": {
 			"type": "string",
 			"defaultValue": "@triggerBody().folderPath"
@@ -42,10 +46,6 @@
 		"triggerscedule_properties_pip4_parameters_time": {
 			"type": "string",
 			"defaultValue": "@trigger().startTime"
-		},
-		"AzureDatabricks2_properties_typeProperties_existingClusterId": {
-			"type": "string",
-			"defaultValue": "0301-063913-3tjp2vyv"
 		}
 	},
 	"variables": {
@@ -226,7 +226,8 @@
 				},
 				"parameters": {
 					"time": {
-						"type": "string"
+						"type": "string",
+						"defaultValue": "@trigger().startTime"
 					}
 				},
 				"annotations": []
@@ -318,6 +319,24 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/AzureDatabricks2')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureDatabricks",
+				"typeProperties": {
+					"domain": "https://adb-732307873441066.6.azuredatabricks.net",
+					"accessToken": {
+						"type": "SecureString",
+						"value": "[parameters('AzureDatabricks2_accessToken')]"
+					},
+					"existingClusterId": "[parameters('AzureDatabricks2_properties_typeProperties_existingClusterId')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/triggeradls')]",
 			"type": "Microsoft.DataFactory/factories/triggers",
 			"apiVersion": "2018-06-01",
@@ -381,24 +400,6 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/pipelines/pip4')]"
 			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureDatabricks2')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureDatabricks",
-				"typeProperties": {
-					"domain": "https://adb-732307873441066.6.azuredatabricks.net",
-					"accessToken": {
-						"type": "SecureString",
-						"value": "[parameters('AzureDatabricks2_accessToken')]"
-					},
-					"existingClusterId": "[parameters('AzureDatabricks2_properties_typeProperties_existingClusterId')]"
-				}
-			},
-			"dependsOn": []
 		}
 	]
 }

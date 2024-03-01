@@ -214,7 +214,8 @@
 				},
 				"parameters": {
 					"time": {
-						"type": "string"
+						"type": "string",
+						"defaultValue": "@trigger().startTime"
 					}
 				},
 				"annotations": []
