@@ -1,0 +1,45 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "mbusa-df"
+		},
+		"AzureDataLakeStorage1_accountKey": {
+			"value": ""
+		},
+		"AzureDatabricks1_accessToken": {
+			"value": ""
+		},
+		"AzureDatabricks2_accessToken": {
+			"value": ""
+		},
+		"AzureDataLakeStorage1_properties_typeProperties_url": {
+			"value": "https://mbusaadls.dfs.core.windows.net/"
+		},
+		"AzureDatabricks1_properties_typeProperties_existingClusterId": {
+			"value": "1219-043742-58dt6qj2"
+		},
+		"triggeradls_properties_pip1_parameters_path": {
+			"value": "@triggerBody().folderPath"
+		},
+		"triggeradls_properties_pip1_parameters_file": {
+			"value": "@triggerBody().fileName"
+		},
+		"triggeradls_properties_typeProperties_scope": {
+			"value": "/subscriptions/b248d6aa-e733-4e20-87d9-e427e42dfab4/resourceGroups/mbusa/providers/Microsoft.Storage/storageAccounts/mbusaadls"
+		},
+		"triggerscedule_properties_pip4_parameters_time": {
+			"value": "@trigger().startTime"
+		},
+		"AzureDatabricks2_properties_typeProperties_existingClusterId": {
+			"value": "0301-063913-3tjp2vyv"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}
