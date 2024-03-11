@@ -15,7 +15,7 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"notebookPath": "/Workspace/Users/nirnab.chowdhury@nagarro.com/notebook1",
+					"notebookPath": "/Workspace/Users/nirnab.chowdhury@nagarro.com/notebook2",
 					"baseParameters": {
 						"time": {
 							"value": "@pipeline().parameters.time",
