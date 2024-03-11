@@ -38,7 +38,7 @@
 				"typeProperties": {
 					"variableName": "val",
 					"value": {
-						"value": "@activity('sample_pip1').output.RunId",
+						"value": "@activity('sample_pip1').output.pipelineRunId",
 						"type": "Expression"
 					}
 				}
