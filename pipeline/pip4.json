@@ -59,8 +59,7 @@
 						"activity": "sample_pip1",
 						"dependencyConditions": [
 							"Skipped",
-							"Failed",
-							"Succeeded"
+							"Failed"
 						]
 					}
 				],
