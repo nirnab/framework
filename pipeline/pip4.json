@@ -58,7 +58,6 @@
 					{
 						"activity": "sample_pip1",
 						"dependencyConditions": [
-							"Skipped",
 							"Failed"
 						]
 					}
@@ -71,9 +70,48 @@
 				"typeProperties": {
 					"variableName": "val",
 					"value": {
-						"value": "@if(contains(activity('Notebook1').output,'runError'), activity('Notebook1').output.runError, if(contains(activity('sample_pip1').output, 'runError'), activity('sample_pip1').output.runError, 'Success'))",
+						"value": "@concat('error in child pipeline; runID :',activity('sample_pip1').output.pipelineRunId)",
 						"type": "Expression"
 					}
+				}
+			},
+			{
+				"name": "Notebook2",
+				"type": "DatabricksNotebook",
+				"dependsOn": [
+					{
+						"activity": "Set variable1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "sample_pip1",
+						"dependencyConditions": [
+							"Skipped",
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"baseParameters": {
+						"error": {
+							"value": "@if(contains(activity('Notebook1').output,'runError'), activity('Notebook1').output.runError, if(empty(variables('val')), 'no-fatal-error', variables('val')))",
+							"type": "Expression"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "AzureDatabricks2",
+					"type": "LinkedServiceReference"
 				}
 			}
 		],
