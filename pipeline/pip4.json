@@ -48,10 +48,7 @@
 						"referenceName": "sample_pip1",
 						"type": "PipelineReference"
 					},
-					"waitOnCompletion": true,
-					"parameters": {
-						"time": "@pipeline().parameters.time"
-					}
+					"waitOnCompletion": true
 				}
 			},
 			{

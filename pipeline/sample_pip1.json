@@ -15,13 +15,7 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"notebookPath": "/Workspace/Users/nirnab.chowdhury@nagarro.com/notebook1",
-					"baseParameters": {
-						"time": {
-							"value": "@pipeline().parameters.time",
-							"type": "Expression"
-						}
-					}
+					"notebookPath": "/Workspace/Users/nirnab.chowdhury@nagarro.com/notebook1"
 				},
 				"linkedServiceName": {
 					"referenceName": "AzureDatabricks2",
@@ -29,9 +23,9 @@
 				}
 			}
 		],
-		"parameters": {
-			"time": {
-				"type": "string"
+		"variables": {
+			"val": {
+				"type": "String"
 			}
 		},
 		"annotations": []
