@@ -38,7 +38,7 @@
 				"typeProperties": {
 					"variableName": "val",
 					"value": {
-						"value": "@activity('sample_pip1').output.pipelineRunId",
+						"value": "@if(equals(activity('sample_pip1').output.status, 'Failed'), 'Failed', 'Success')\n",
 						"type": "Expression"
 					}
 				}
