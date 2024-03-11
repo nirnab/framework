@@ -76,7 +76,7 @@
 				}
 			},
 			{
-				"name": "Notebook2",
+				"name": "Notebook3",
 				"type": "DatabricksNotebook",
 				"dependsOn": [
 					{
@@ -102,6 +102,7 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
+					"notebookPath": "/Workspace/Users/nirnab.chowdhury@nagarro.com/notebook3",
 					"baseParameters": {
 						"error": {
 							"value": "@if(contains(activity('Notebook1').output,'runError'), activity('Notebook1').output.runError, if(empty(variables('val')), 'no-fatal-error', variables('val')))",
