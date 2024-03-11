@@ -48,7 +48,35 @@
 						"referenceName": "sample_pip1",
 						"type": "PipelineReference"
 					},
-					"waitOnCompletion": true
+					"waitOnCompletion": true,
+					"parameters": {
+						"time": "@pipeline().parameters.time"
+					}
+				}
+			},
+			{
+				"name": "Set variable1",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "sample_pip1",
+						"dependencyConditions": [
+							"Skipped",
+							"Failed"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "val",
+					"value": {
+						"value": "@activity('Notebook1').output.pipelineReturnValue",
+						"type": "Expression"
+					}
 				}
 			}
 		],
@@ -56,6 +84,11 @@
 			"time": {
 				"type": "string",
 				"defaultValue": "@trigger().scheduledTime\t"
+			}
+		},
+		"variables": {
+			"val": {
+				"type": "String"
 			}
 		},
 		"annotations": []
