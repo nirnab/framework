@@ -1,0 +1,93 @@
+{
+	"name": "pip5",
+	"properties": {
+		"activities": [
+			{
+				"name": "Notebook1",
+				"type": "DatabricksNotebook",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Workspace/Users/nirnab.chowdhury@nagarro.com/notebook2",
+					"baseParameters": {
+						"time": {
+							"value": "@pipeline().parameters.time",
+							"type": "Expression"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "AzureDatabricks2",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "sample_pip1",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Notebook1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "sample_pip1",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Set variable1",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "sample_pip1",
+						"dependencyConditions": [
+							"Skipped",
+							"Failed"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "val",
+					"value": {
+						"value": "@if(contains(activity('Notebook1').output,'runError'), activity('Notebook1').output.runError, if(contains(activity('sample_pip1').output, 'runError'), activity('sample_pip1').output.runError, 'Success'))",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"parameters": {
+			"time": {
+				"type": "string",
+				"defaultValue": "@trigger().scheduledTime\t"
+			}
+		},
+		"variables": {
+			"val": {
+				"type": "String"
+			}
+		},
+		"annotations": []
+	}
+}
