@@ -62,7 +62,8 @@
 						"activity": "sample_pip1",
 						"dependencyConditions": [
 							"Skipped",
-							"Failed"
+							"Failed",
+							"Succeeded"
 						]
 					}
 				],
@@ -74,7 +75,7 @@
 				"typeProperties": {
 					"variableName": "val",
 					"value": {
-						"value": "@activity('Notebook1').output.runError",
+						"value": "@if(contains(activity('Notebook1').output,'runError'), activity('Notebook1').output.runError, if(contains(activity('sample_pip1').output, 'runError'), activity('sample_pip1').output.runError, 'Success'))",
 						"type": "Expression"
 					}
 				}
