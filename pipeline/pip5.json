@@ -4,6 +4,7 @@
 		"activities": [
 			{
 				"name": "sample_pip1",
+				"description": "@activity('RunChildPipeline').output.RunId",
 				"type": "ExecutePipeline",
 				"dependsOn": [],
 				"policy": {
@@ -37,7 +38,7 @@
 				"typeProperties": {
 					"variableName": "val",
 					"value": {
-						"value": "@pipeline().RunId",
+						"value": "@activity('sample_pip1').output.RunId",
 						"type": "Expression"
 					}
 				}
