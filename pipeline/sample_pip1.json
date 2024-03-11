@@ -1,5 +1,5 @@
 {
-	"name": "pip4",
+	"name": "sample_pip1",
 	"properties": {
 		"activities": [
 			{
@@ -17,45 +17,18 @@
 				"typeProperties": {
 					"notebookPath": "/Workspace/Users/nirnab.chowdhury@nagarro.com/notebook1",
 					"baseParameters": {
-						"time": {
-							"value": "@pipeline().parameters.time",
-							"type": "Expression"
-						}
+						"time": "@pipeline().parameters.time"
 					}
 				},
 				"linkedServiceName": {
 					"referenceName": "AzureDatabricks2",
 					"type": "LinkedServiceReference"
 				}
-			},
-			{
-				"name": "sample_pip1",
-				"type": "ExecutePipeline",
-				"dependsOn": [
-					{
-						"activity": "Notebook1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"pipeline": {
-						"referenceName": "sample_pip1",
-						"type": "PipelineReference"
-					},
-					"waitOnCompletion": true
-				}
 			}
 		],
 		"parameters": {
 			"time": {
-				"type": "string",
-				"defaultValue": "@trigger().scheduledTime\t"
+				"type": "string"
 			}
 		},
 		"annotations": []
