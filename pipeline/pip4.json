@@ -76,19 +76,12 @@
 				}
 			},
 			{
-				"name": "Notebook3",
+				"name": "Notebook3_onfailure",
 				"type": "DatabricksNotebook",
 				"dependsOn": [
 					{
 						"activity": "Set variable1",
 						"dependencyConditions": [
-							"Succeeded"
-						]
-					},
-					{
-						"activity": "sample_pip1",
-						"dependencyConditions": [
-							"Skipped",
 							"Succeeded"
 						]
 					}
@@ -105,7 +98,41 @@
 					"notebookPath": "/Workspace/Users/nirnab.chowdhury@nagarro.com/notebook3",
 					"baseParameters": {
 						"error": {
-							"value": "@if(contains(activity('Notebook1').output,'runError'), activity('Notebook1').output.runError, if(empty(variables('val')), 'no-fatal-error', variables('val')))",
+							"value": "@variables('val')",
+							"type": "Expression"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "AzureDatabricks2",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "Notebook3_on_success_skip",
+				"type": "DatabricksNotebook",
+				"dependsOn": [
+					{
+						"activity": "sample_pip1",
+						"dependencyConditions": [
+							"Succeeded",
+							"Skipped"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Workspace/Users/nirnab.chowdhury@nagarro.com/notebook3",
+					"baseParameters": {
+						"error": {
+							"value": "@if(contains(activity('Notebook1').output, 'runError'), activity('Notebook1').output.runError, 'no-fatal')\n",
 							"type": "Expression"
 						}
 					}
