@@ -84,13 +84,6 @@
 						"dependencyConditions": [
 							"Succeeded"
 						]
-					},
-					{
-						"activity": "sample_pip1",
-						"dependencyConditions": [
-							"Succeeded",
-							"Skipped"
-						]
 					}
 				],
 				"policy": {
@@ -118,7 +111,15 @@
 			{
 				"name": "Notebook3_on_success_skip",
 				"type": "DatabricksNotebook",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "sample_pip1",
+						"dependencyConditions": [
+							"Skipped",
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
