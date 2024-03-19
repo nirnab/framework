@@ -31,6 +31,10 @@
 			"type": "string",
 			"defaultValue": "0301-063913-3tjp2vyv"
 		},
+		"trigger1_properties_pip4_parameters_time": {
+			"type": "string",
+			"defaultValue": "@trigger().scheduledTime"
+		},
 		"triggeradls_properties_pip1_parameters_path": {
 			"type": "string",
 			"defaultValue": "@triggerBody().folderPath"
@@ -42,10 +46,6 @@
 		"triggeradls_properties_typeProperties_scope": {
 			"type": "string",
 			"defaultValue": "/subscriptions/b248d6aa-e733-4e20-87d9-e427e42dfab4/resourceGroups/mbusa/providers/Microsoft.Storage/storageAccounts/mbusaadls"
-		},
-		"trigger1_properties_pip4_parameters_time": {
-			"type": "string",
-			"defaultValue": "@trigger().scheduledTime"
 		}
 	},
 	"variables": {
@@ -207,10 +207,125 @@
 						},
 						"userProperties": [],
 						"typeProperties": {
-							"notebookPath": "/Workspace/Users/nirnab.chowdhury@nagarro.com/notebook1",
+							"notebookPath": "/Workspace/Users/nirnab.chowdhury@nagarro.com/notebook2",
 							"baseParameters": {
 								"time": {
 									"value": "@pipeline().parameters.time",
+									"type": "Expression"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "AzureDatabricks2",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "sample_pip1",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "Notebook1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "sample_pip1",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "Set variable1",
+						"type": "SetVariable",
+						"dependsOn": [
+							{
+								"activity": "sample_pip1",
+								"dependencyConditions": [
+									"Failed"
+								]
+							}
+						],
+						"policy": {
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "val",
+							"value": {
+								"value": "@concat('error in child pipeline; runID :',activity('sample_pip1').output.pipelineRunId)",
+								"type": "Expression"
+							}
+						}
+					},
+					{
+						"name": "Notebook3_onfailure",
+						"type": "DatabricksNotebook",
+						"dependsOn": [
+							{
+								"activity": "Set variable1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"notebookPath": "/Workspace/Users/nirnab.chowdhury@nagarro.com/notebook3",
+							"baseParameters": {
+								"error": {
+									"value": "@variables('val')",
+									"type": "Expression"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "AzureDatabricks2",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "Notebook3_on_success_skip",
+						"type": "DatabricksNotebook",
+						"dependsOn": [
+							{
+								"activity": "sample_pip1",
+								"dependencyConditions": [
+									"Skipped",
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"notebookPath": "/Workspace/Users/nirnab.chowdhury@nagarro.com/notebook3",
+							"baseParameters": {
+								"error": {
+									"value": "@if(contains(activity('Notebook1').output, 'runError'), activity('Notebook1').output.runError, 'no-fatal')\n",
 									"type": "Expression"
 								}
 							}
@@ -228,6 +343,122 @@
 					"time": {
 						"type": "string",
 						"defaultValue": "@trigger().scheduledTime\t"
+					}
+				},
+				"variables": {
+					"val": {
+						"type": "String"
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDatabricks2')]",
+				"[concat(variables('factoryId'), '/pipelines/sample_pip1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pip5')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "sample_pip1",
+						"description": "@activity('RunChildPipeline').output.RunId",
+						"type": "ExecutePipeline",
+						"dependsOn": [],
+						"policy": {
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "sample_pip1",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "Set variable1",
+						"type": "SetVariable",
+						"dependsOn": [
+							{
+								"activity": "sample_pip1",
+								"dependencyConditions": [
+									"Failed"
+								]
+							}
+						],
+						"policy": {
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "val",
+							"value": {
+								"value": "@if(equals(activity('sample_pip1').output.status, 'Failed'), 'Failed', 'Success')\n",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"parameters": {
+					"time": {
+						"type": "string",
+						"defaultValue": "@trigger().scheduledTime\t"
+					}
+				},
+				"variables": {
+					"val": {
+						"type": "String"
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/sample_pip1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/sample_pip1')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Notebook1",
+						"type": "DatabricksNotebook",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"notebookPath": "/Workspace/Users/nirnab.chowdhury@nagarro.com/notebook1"
+						},
+						"linkedServiceName": {
+							"referenceName": "AzureDatabricks2",
+							"type": "LinkedServiceReference"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"variables": {
+					"val": {
+						"type": "String"
 					}
 				},
 				"annotations": []
@@ -337,6 +568,38 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/trigger1')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"runtimeState": "Started",
+				"pipelines": [
+					{
+						"pipelineReference": {
+							"referenceName": "pip4",
+							"type": "PipelineReference"
+						},
+						"parameters": {
+							"time": "[parameters('trigger1_properties_pip4_parameters_time')]"
+						}
+					}
+				],
+				"type": "ScheduleTrigger",
+				"typeProperties": {
+					"recurrence": {
+						"frequency": "Minute",
+						"interval": 15,
+						"startTime": "2024-03-01T07:00:00",
+						"timeZone": "India Standard Time"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/pip4')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/triggeradls')]",
 			"type": "Microsoft.DataFactory/factories/triggers",
 			"apiVersion": "2018-06-01",
@@ -390,36 +653,62 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/trigger1')]",
-			"type": "Microsoft.DataFactory/factories/triggers",
+			"name": "[concat(parameters('factoryName'), '/pip_foreach')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"annotations": [],
-				"runtimeState": "Started",
-				"pipelines": [
+				"activities": [
 					{
-						"pipelineReference": {
-							"referenceName": "pip4",
-							"type": "PipelineReference"
-						},
-						"parameters": {
-							"time": "[parameters('trigger1_properties_pip4_parameters_time')]"
+						"name": "ForEach1",
+						"type": "ForEach",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@variables('array')",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "Set variable1",
+									"type": "SetVariable",
+									"dependsOn": [],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "test",
+										"value": {
+											"value": "@item()",
+											"type": "Expression"
+										}
+									}
+								}
+							]
 						}
 					}
 				],
-				"type": "ScheduleTrigger",
-				"typeProperties": {
-					"recurrence": {
-						"frequency": "Minute",
-						"interval": 15,
-						"startTime": "2024-03-01T07:00:00",
-						"timeZone": "India Standard Time"
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"variables": {
+					"array": {
+						"type": "Array",
+						"defaultValue": [
+							"nirnab",
+							"manish",
+							"amalu"
+						]
+					},
+					"test": {
+						"type": "String"
 					}
-				}
+				},
+				"annotations": []
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/pip4')]"
-			]
+			"dependsOn": []
 		}
 	]
 }

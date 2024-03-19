@@ -23,6 +23,9 @@
 		"AzureDatabricks2_properties_typeProperties_existingClusterId": {
 			"value": "0301-063913-3tjp2vyv"
 		},
+		"trigger1_properties_pip4_parameters_time": {
+			"value": "@trigger().scheduledTime"
+		},
 		"triggeradls_properties_pip1_parameters_path": {
 			"value": "@triggerBody().folderPath"
 		},
@@ -31,9 +34,6 @@
 		},
 		"triggeradls_properties_typeProperties_scope": {
 			"value": "/subscriptions/b248d6aa-e733-4e20-87d9-e427e42dfab4/resourceGroups/mbusa/providers/Microsoft.Storage/storageAccounts/mbusaadls"
-		},
-		"trigger1_properties_pip4_parameters_time": {
-			"value": "@trigger().scheduledTime"
 		}
 	}
 }
