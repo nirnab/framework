@@ -77,7 +77,16 @@
 							"secureOutput": false,
 							"secureInput": false
 						},
-						"userProperties": [],
+						"userProperties": [
+							{
+								"name": "Source",
+								"value": "dreamio-data//"
+							},
+							{
+								"name": "Destination",
+								"value": "dreamio-data/parquet/"
+							}
+						],
 						"typeProperties": {
 							"source": {
 								"type": "DelimitedTextSource",
@@ -101,6 +110,7 @@
 								}
 							},
 							"enableStaging": false,
+							"parallelCopies": 1,
 							"translator": {
 								"type": "TabularTranslator",
 								"mappings": [
@@ -111,8 +121,7 @@
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "Correlation id",
-											"type": "String",
+											"name": "Correlation_id",
 											"physicalType": "UTF8"
 										}
 									},
@@ -123,8 +132,7 @@
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "Operation name",
-											"type": "String",
+											"name": "Operation__name",
 											"physicalType": "UTF8"
 										}
 									},
@@ -147,8 +155,7 @@
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "Event category",
-											"type": "String",
+											"name": "Event_category",
 											"physicalType": "UTF8"
 										}
 									},
@@ -195,8 +202,7 @@
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "Event initiated by",
-											"type": "String",
+											"name": "Event_initiated_by",
 											"physicalType": "UTF8"
 										}
 									},
@@ -207,8 +213,7 @@
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "Resource type",
-											"type": "String",
+											"name": "Resource_type",
 											"physicalType": "UTF8"
 										}
 									},
@@ -219,8 +224,7 @@
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "Resource group",
-											"type": "String",
+											"name": "Resource_group",
 											"physicalType": "UTF8"
 										}
 									},
